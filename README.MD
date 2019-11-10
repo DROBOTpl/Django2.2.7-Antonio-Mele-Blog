@@ -17,9 +17,20 @@ Wersję django w konsoli Pythona sprawdzam poleceniem:
 ##### 1.2 Tworzenie pierwszego projektu
 `django-admin startproject mysite .`
 
-##### 1.3 Utworzenie aplikacji
-
+###### Utworzenie aplikacji
 ```
 py manage.py startapp blog
 py manage.py migrate
 ```
+
+##### 1.3 Projekt Schematu danych dla bloga
+> Model to klasa Pythona która (podklasa klasy django.db.models.Model).  
+> Django tworzy tabelę dla każdego modelu zdefiniowanego w pliku _models.py_  
+> Każdy atrybut tej klasy reprezentuje pole bazy danych  
+- Definiuję model Post w _models.py_ 
+- aktywuję aplikację w _settings.py_
+- `py manage.py makemigrations blog`
+- aby przyjrzeć się kodowi SQL wykonam: `py manage.py sqlmigrate blog 0001`
+- `py manage.py migrate`
+
+> jeśli zmodyfikuję istniejące pole lub dodam nowe muszę ponownie zastosować makemigrations i migrate
