@@ -34,3 +34,9 @@ py manage.py migrate
 - `py manage.py migrate`
 
 > jeśli zmodyfikuję istniejące pole lub dodam nowe muszę ponownie zastosować makemigrations i migrate
+
+##### 1.4 Tworzenie witryny administracyjnej dla Modeli
+> Django ma wbudowany interfejs admina, jest on podpięty w INSTALLED_APPS jako django.contrib.admin, można go tam odkomentować jeśli nie używany
+
+- `py manage.py createsuperuser`
+- aby dodać model Post do panelu admina rejestruję go w _admin.py_, potem personalizuję jego wyświetlanie
