@@ -3,7 +3,20 @@ from django.db import models
 from django.utils import timezone
 
 
+# tworzę własnego menedżera do pobierania wszystkich postów których stan jest określony jako published
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status='published')
+
+
 class Post(models.Model):
+
+    # menedżer domyślny -> Post.objects.all()
+    objects = models.Manager()
+
+    # mój niestandardowy menedżer -> Post.published.all()
+    published = PublishedManager()
+
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
