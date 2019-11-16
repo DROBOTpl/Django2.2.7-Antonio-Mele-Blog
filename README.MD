@@ -2,9 +2,10 @@
 > Książka Antonio Mele pod tytułem "Django 2 - praktyczne tworzenie aplikacji sieciowych."
 > Przepracowana dla wersji Django 2.2.7 w Pythonie 3.5.4
 
-### Rozdział 1 - Utworzenie aplikacji bloga
 
-##### 1.1 Instalowanie Django 
+## Rozdział 1 - Utworzenie aplikacji bloga
+
+#### 1.1 Instalowanie Django 
 ```pip install Django==2.2.7```
 
 Wersję django w konsoli Pythona sprawdzam poleceniem:
@@ -14,7 +15,9 @@ Wersję django w konsoli Pythona sprawdzam poleceniem:
 >>> django.get_version()
 ```
 
-##### 1.2 Tworzenie pierwszego projektu
+<hr>
+
+#### 1.2 Tworzenie pierwszego projektu
 `django-admin startproject mysite .`
 
 ###### Utworzenie aplikacji
@@ -22,6 +25,8 @@ Wersję django w konsoli Pythona sprawdzam poleceniem:
 py manage.py startapp blog
 py manage.py migrate
 ```
+
+<hr>
 
 ##### 1.3 Projekt Schematu danych dla bloga
 > Model to klasa Pythona która (podklasa klasy django.db.models.Model).  
@@ -35,13 +40,17 @@ py manage.py migrate
 
 > jeśli zmodyfikuję istniejące pole lub dodam nowe muszę ponownie zastosować makemigrations i migrate
 
-##### 1.4 Tworzenie witryny administracyjnej dla Modeli
+<hr>
+
+#### 1.4 Tworzenie witryny administracyjnej dla Modeli
 > Django ma wbudowany interfejs admina, jest on podpięty w INSTALLED_APPS jako django.contrib.admin, można go tam odkomentować jeśli nie używany
 
 - `py manage.py createsuperuser`
 - aby dodać model Post do panelu admina rejestruję go w _admin.py_, potem personalizuję jego wyświetlanie
 
-##### 1.5 Praca z obiektami QuerySet i menedżerami
+<hr>
+
+#### 1.5 Praca z obiektami QuerySet i menedżerami
 
 > QuerySet - wbudowany w Django interfejs API do abstrakcji baz danych. Mechanizm mapowania relacyjno-obiektowego  
 > https://docs.djangoproject.com/en/3.0/ref/models/
@@ -56,7 +65,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
 application = get_wsgi_application()
 ```
 
-###### Tworzenie obiektów
+##### Tworzenie obiektów
 ```
 from django.contrib.auth.models import User
 from blog.models import Post
@@ -80,13 +89,13 @@ post.save()
 - Tworzenie i utrwalenie w db obiektu za pomocą funkcji **create()**  
 `Post.objects.create(title='create post', slug='create-post', body='one more post', author=user)`
 
-###### Aktualizowanie obiektów
+##### Aktualizowanie obiektów
 ```
 post.title = 'inny się zmienia'
 post.save()
 ```
 
-###### Pobieranie obiektów
+##### Pobieranie obiektów
 > za pomocą get() pobieram 1 obiekt, za pomocą all() wszystkie
 - tworzę obiekt który będzie zwracał wszystkie obiekty Post
 `all_posts = Post.objects.all()`
@@ -108,13 +117,45 @@ Post.objects.order_by('title')
 Post.objects.order_by('-title')
 ```
  
- ###### Usuwanie obiektów
+ ##### Usuwanie obiektów
  ```
 post = Post.objects.get(id=1)
 post.delete()
 ```
 
- ###### Tworzenie menedżerów obiektów
+ ##### Tworzenie menedżerów obiektów
  
  > objects - to domyślny menedżer każdego modelu, który pobiera wszystkie obiekty z db.
  - w pliku _models.py_ utworzę własnego menedżera do pobierania wszystkich postów których stan jest określony jako published
+
+<hr>
+
+#### 1.6 Przygotowanie widoków listy i szczegółów
+> Widok to funkcja Pythona, która otrzymuje żądanie sieciowe i udziela na nie odpowiedzi.
+>Wewnątrz tej funkcji znajduje się logika odpowiedzialna za zwrot żądanej odpowiedzi.
+ 
+##### Tworzenie widoków listy i szczegółów
+ - tworzę widoki post_list i post_detail w _blog/views.py_
+
+##### Dodanie wzorców adresów URL do widoków
+> wzorce adresów URL mapują URL na widoki
+- tworzę plik _blog/urls.py_ i definiuję wzorce URL w funkcji **path()**
+- dołączam wzorce adresów pliku _blog/urls.py_ w głównym _urls.py_ przy pomocy funkcji **include()**
+
+##### Kanoniczne adresu URL dla modeli
+> Konwencja Django polega na dodaniu metody **get_absolute_url()** do modelu zwracającego kanoniczny adres URL obiektu.
+> W tej metodzie wykorzystujemy funkcję **reverse()** tworzącą URL na podstawie nazwy i parametrów opcjonalnych.
+
+- edytuję _models.py_ dodając metodę **get_absolute_url()**
+
+##### Utworzenie szablonów dla widoków
+- tworzę szablony - bazowy, listy postów i szczegółów posta
+
+
+
+
+
+
+<hr>
+
+
