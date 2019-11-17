@@ -148,10 +148,24 @@ post.delete()
 
 - edytuję _models.py_ dodając metodę **get_absolute_url()**
 
-##### Utworzenie szablonów dla widoków
+<hr>
+
+#### 1.7 Utworzenie szablonów dla widoków
 - tworzę szablony - bazowy, listy postów i szczegółów posta
 
+<hr>
 
+#### 1.8 Dodanie stronicowania
+> Django ma wbudowane klasy stronicowania, sposób działania mechanizmu:
+> 1. Tworzy egzemplarz klasy Paginator, wraz z liczbą obiektów do wyświetlenia na stronie  
+> 2. Pobiera parametr GET.page wskazujący numer bieżącej strony  
+> 3. metoda page() klasy Paginator pobiera obiekty dla danej strony  
+> 4. dodanie except, czyli co robić jeśli parametr nie jest liczbą całkowitą lub ma wartość większą niż numer ostatniej strony wyników  
+> 5. Przekazanie numerów stron i pobranych obiektów do szablonu
+
+- edytuję _views.py_ dodając klasy stronicowania
+- tworzę szablon _pagination.html_
+- edytuję _blog/list.html_ i dodaję w nim _pagination.html_
 
 
 

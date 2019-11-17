@@ -10,5 +10,5 @@ urlpatterns = [
 
     # do przechwytywania wartości z adresu URL używamy < >
     # ten url pobiera 4 argumenty i jest mapowany na widok
-    path('/<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, name='post_detail'),
+    path(' /<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, name='post_detail'),
 ]
