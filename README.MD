@@ -167,8 +167,15 @@ post.delete()
 - tworzę szablon _pagination.html_
 - edytuję _blog/list.html_ i dodaję w nim _pagination.html_
 
+<hr>
 
+#### 1.8 Użycie widoków opartych na klasach
+> Widoki oparte na klasach są innym sposobem implementacji widoków jako obiektów Pythona.  
+> Widok to funkcja otrzymująca żądanie sieciowe i zwracająca odpowiedź, można więc zdefiniować widok jako metodę klasy.  
+> Django oferuje klasy widoku bazowego dziedziczące po klasie **View**  
+> https://docs.djangoproject.com/en/2.2/topics/class-based-views/
 
+- zmieniam widok **post_list** na widok oparty na klasie, zmieniam też patch w _urls.py_ i link do paginacji w _list.html_
 
 <hr>
 

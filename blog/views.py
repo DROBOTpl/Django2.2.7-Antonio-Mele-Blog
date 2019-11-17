@@ -1,3 +1,4 @@
+"""
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 from .models import Post
@@ -20,6 +21,22 @@ def post_list(request):
         posts = paginator.page(paginator.num_pages)
 
     return render(request, 'blog/post/list.html', {'page': page, 'posts': posts})
+"""
+
+
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
+
+from .models import Post
+
+
+class PostListView(ListView):
+    # zamiast definiować atrybut QuerySet, mogę podać model a Django przygotuje całą kolekcję
+    queryset = Post.published.all()
+    context_object_name = 'posts'
+    paginate_by = 2
+    template_name = 'blog/post/list.html'
+
 
 
 # widok pojedynczego posta
