@@ -1,32 +1,7 @@
-"""
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render, get_object_or_404
-from .models import Post
-
-
-# widok listy wszystkich postów
-# widok pobiera parametr request który jest wymagany dla wszystkich widoków
-def post_list(request):
-    object_list = Post.published.all()
-    paginator = Paginator(object_list, 3)  # zmienna oddająca 3 posty na każdej stronie
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        # jeżeli zmienna page nie jest liczbą całkowitą wówczas pobierana jest pierwsza strona wyników
-        posts = paginator.page(1)
-    except EmptyPage:
-        # jeśli zmienna page ma wartość większą niż numer ostatniej strony
-        # wyników, wtedy pobierana jest ostatnia strona wyników
-        posts = paginator.page(paginator.num_pages)
-
-    return render(request, 'blog/post/list.html', {'page': page, 'posts': posts})
-"""
-
-
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
-
+from .forms import EmailPostForm
+from django.core.mail import send_mail
 from .models import Post
 
 
@@ -38,7 +13,6 @@ class PostListView(ListView):
     template_name = 'blog/post/list.html'
 
 
-
 # widok pojedynczego posta
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post,
@@ -47,3 +21,32 @@ def post_detail(request, year, month, day, post):
                              publish__month=month,
                              publish__day=day)
     return render(request, 'blog/post/detail.html', {'post': post})
+
+
+# widok formularza z wysyłaniem wiadomości email
+def post_share(request, post_id):
+    # pobranie posta na podstawie jego id
+    post = get_object_or_404(Post, id=post_id, status="published")
+    sent = False
+
+    if request.method == 'POST':
+        # formularz został wysłany
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            # weryfikacja pól formularza zakończyła się powodzeniem...
+            cd = form.cleaned_data
+
+            # get_absolute_url() pobiera bezwzględną ścieżkę do posta
+            # build_absolute_uri() buduje adres URL zawierający schemat HTTP oraz nazwę hosta
+            post_url = request.build_absolute_uri(post.get_absolute_url())
+            # pobieram temat i treść z formularza
+            subject = '{} ({}) zachęca do przeczytania "{}"'.format(cd['name'], cd['email'], post.title)
+            message = 'Przeczytaj post "{}" na stronie {}\n\n Komentarz dodany przez {}: {}'\
+                .format(post.title, post_url, cd['name'], cd['comments'])
+            # wysyłam email przy pomocy funkcji send_mail()
+            send_mail(subject, message, 'drobot@myblog.com', [cd['to']])
+            # zmienną sent wykorzystam w szablonie do komunikatu 'success'
+            sent = True
+    else:
+        form = EmailPostForm()
+    return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent': sent})

@@ -72,7 +72,7 @@ from blog.models import Post
 ```
 
 - Tworzenie obiektu za pomocą instrukcji SQL Insert
-> Metoda get() pobiera pojedyńczy obiekt z db. Jeżeli obiekt nie istnieje, zwróci wyjątek **DoesNotExist**,
+> Metoda get() pobiera pojedynczy obiekt z db. Jeżeli obiekt nie istnieje, zwróci wyjątek **DoesNotExist**,
 >a jeśli db zwróci więcej niż jeden wynik to da wyjątek **MultipleObjectsReturned**
 
 ```
@@ -176,6 +176,32 @@ post.delete()
 > https://docs.djangoproject.com/en/2.2/topics/class-based-views/
 
 - zmieniam widok **post_list** na widok oparty na klasie, zmieniam też patch w _urls.py_ i link do paginacji w _list.html_
+
+<hr>
+
+## Rozdział 2 - Usprawnienie bloga za pomocą funkcji zaawansowanych
+
+<hr>
+
+#### 2.1 Współdzielenie postów przy użyciu wiadomości email
+
+##### Tworzenie formularzy w Django
+> Django ma wbudowany framework formularzy ułatwiający ich tworzenie.
+> Django dostarcza dwie klasy bazowe do tworzenia formularzy:  
+> - **Form** (do standardowych formularzy)  
+> - **ModelForm** (do budowania form, za pomocą których będą tworzone lub uaktualniane egzemplarze modelu)
+
+- tworzę plik _blog/forms.py_ w którym generuję formularz dziedziczący po klasie bazowej **Form**
+- robię widok do obsługi formularza w  _views.py_
+
+##### Wysyłanie wiadomości e-mail w Django
+
+- w settings.py dodaję konfigurację konta mailowego SMTP z którego Django wysyła maile
+- edytuję views.py  dodając widok formularza z wysyłaniem wiadomości email
+- dodaję ścieżkę patch() w _urls.py_
+- tworzę templatkę _blog/templates/blog/post/share.html_
+- dodaję link w  _blog/templates/blog/post/detail.html_
+- dodaję też css
 
 <hr>
 

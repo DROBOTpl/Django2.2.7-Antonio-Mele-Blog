@@ -12,4 +12,7 @@ urlpatterns = [
     # do przechwytywania wartości z adresu URL używamy < >
     # ten url pobiera 4 argumenty i jest mapowany na widok
     path(' /<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, name='post_detail'),
+
+    # formularz z wysyłaniem wiadomości email
+    path('<int:post_id>/share/', views.post_share, name='post_share'),
 ]
