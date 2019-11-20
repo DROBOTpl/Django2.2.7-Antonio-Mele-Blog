@@ -205,4 +205,22 @@ post.delete()
 
 <hr>
 
+#### 2.2 Utworzenie systemu komentarzy
+- dodaję model przeznaczony do przechowywania komentarzy w *models.py*
+> atrybut related_name='comments' dla kolumny post umożliwia nadanie nazwy atrybutowi którego używamy do obsługi związku
+> między dwoma obiektami.  
+> Dzięki niemu możemy pobrać obiekt komentarza za pomocą `comment.post()`,  
+> lub wszystkie obiekty komentarza dla danego posta za pomocą: `post.comments.all()`
 
+- `py manage.py makemigrations blog`
+- `py manage.py migrate`
+
+##### Utworzenie formularza na podstawie modelu
+> w systemie komentarzy wykorzystam klasę **ModelForm** ponieważ potrzebuję dynamicznie tworzyć formularz na podstawie modelu Comment
+- edytuję _forms.py_
+
+##### Obsługa klasy ModelForm w widoku
+- edytuję widok **post_detail** w pliku  _views.py_
+
+##### Dodanie komentarzy do szablonu szczegółów posta
+- edytuję szablon _blog/post/detail.html_
