@@ -217,13 +217,13 @@ post.delete()
 
 ##### Utworzenie formularza na podstawie modelu
 > w systemie komentarzy wykorzystam klasę **ModelForm** ponieważ potrzebuję dynamicznie tworzyć formularz na podstawie modelu Comment
-- edytuję _forms.py_
+- edytuję (_forms.py_)
 
 ##### Obsługa klasy ModelForm w widoku
-- edytuję widok **post_detail** w pliku  _views.py_
+- edytuję widok **post_detail** (_views.py_)
 
 ##### Dodanie komentarzy do szablonu szczegółów posta
-- edytuję szablon _blog/post/detail.html_
+- edytuję szablon (_blog/post/detail.html_)
 
 <hr>
 
@@ -235,7 +235,13 @@ post.delete()
 - do modelu Post dodaję menadżera (_models.py_)
 - `py manage.py makemigrations blog`
 - `py manage.py migrate`
-- edytuję szablon _blog/post/list.html_
+- edytuję szablon (_blog/post/list.html_)
 - przywracam widok oparty na funkcji post_list (_views.py_)
 - przywracam path widoku opartego na funkcji post_list (_urls.py_)
 - dodaję też patch dla tagu (_urls.py_)
+
+<hr>
+
+#### 2.4 Pobieranie podobnych postów
+- importuję funkcję agregacji - Count(), edytuję post_detail (_views.py_)
+- edytuję szablon (_blog/post/detail.html_)
