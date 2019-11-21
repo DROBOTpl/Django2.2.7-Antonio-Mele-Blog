@@ -206,7 +206,7 @@ post.delete()
 <hr>
 
 #### 2.2 Utworzenie systemu komentarzy
-- dodaję model przeznaczony do przechowywania komentarzy w *models.py*
+- dodaję model przeznaczony do przechowywania komentarzy w _models.py_
 > atrybut related_name='comments' dla kolumny post umożliwia nadanie nazwy atrybutowi którego używamy do obsługi związku
 > między dwoma obiektami.  
 > Dzięki niemu możemy pobrać obiekt komentarza za pomocą `comment.post()`,  
@@ -224,3 +224,18 @@ post.delete()
 
 ##### Dodanie komentarzy do szablonu szczegółów posta
 - edytuję szablon _blog/post/detail.html_
+
+<hr>
+
+#### 2.3 Dodanie funkcjonalności tagów
+> aplikacja django-taggit oferuje model Tag i menedżer pozwalający na łatwe dodawanie tagów do dowolnego modelu.
+
+- instaluję `pip install django-taggit==0.17.1`
+- dodaję taggit do INSTAlLED_APPS (_settings.py_)
+- do modelu Post dodaję menadżera (_models.py_)
+- `py manage.py makemigrations blog`
+- `py manage.py migrate`
+- edytuję szablon _blog/post/list.html_
+- przywracam widok oparty na funkcji post_list (_views.py_)
+- przywracam path widoku opartego na funkcji post_list (_urls.py_)
+- dodaję też patch dla tagu (_urls.py_)

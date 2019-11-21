@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from taggit.managers import TaggableManager
 
 
 # tworzę własnego menedżera do pobierania wszystkich postów których stan jest określony jako published
@@ -17,6 +18,9 @@ class Post(models.Model):
 
     # mój niestandardowy menedżer -> Post.published.all()
     published = PublishedManager()
+
+    # menedżer tagów -umożliwia dodawanie, pobieranie i usuwanie tagów z obiektów Post
+    tags = TaggableManager()
 
     STATUS_CHOICES = (
         ('draft', 'Draft'),

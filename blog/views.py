@@ -1,12 +1,39 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
+from taggit.models import Tag
+
 from .forms import EmailPostForm, CommentForm
 from django.core.mail import send_mail
 from .models import Post, Comment
 
 
+def post_list(request, tag_slug=None):
+    object_list = Post.published.all()
+    tag = None
+
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        object_list = object_list.filter(tags__in=[tag])
+
+    paginator = Paginator(object_list, 3)  # 3 posty na każdej stronie
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # Jeżeli zmienna page nie jest liczbą całkowitą, wówczas pobierana jest pierwsza strona wyników.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # Jeżeli zmienna page ma wartość większą niż numer ostatniej strony wyników, wtedy pobierana
+        # jest ostatnia strona wyników
+        posts = paginator.page(paginator.num_pages)
+
+    return render(request, 'blog/post/list.html', {'page': page, 'posts': posts, 'tag': tag})
+
+
 # widok listy wszystkich postów
 class PostListView(ListView):
+
     # zamiast definiować atrybut QuerySet, mogę podać model a Django przygotuje całą kolekcję
     queryset = Post.published.all()
     context_object_name = 'posts'

@@ -6,8 +6,11 @@ app_name = 'blog'
 
 urlpatterns = [
     # widoki posta
-    # path('', views.post_list, name='post_list'),
-    path('', views.PostListView.as_view(), name='post_list'),
+    # path('', views.PostListView.as_view(), name='post_list'),
+    path('', views.post_list, name='post_list'),
+
+    path('tag/<slug:tag_slug>/',
+         views.post_list, name='post_list_by_tag'),
 
     # do przechwytywania wartości z adresu URL używamy < >
     # ten url pobiera 4 argumenty i jest mapowany na widok
